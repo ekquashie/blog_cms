@@ -42,7 +42,15 @@
         <td><?php echo $post_id ?></td>
         <td><?php echo $post_author ?></td>
         <td><?php echo $post_title ?></td>
-        <td><?php echo $post_category_id ?></td>
+        <?php
+            $query = "SELECT * FROM `categories` WHERE `cat_id` = '$post_category_id'";
+            $fetch = $conn->query($query);
+            $row = $fetch->fetch_assoc();
+            $cat_title = $row['cat_title'];
+
+
+        ?>
+        <td><?php echo $cat_title ?></td>
         <td><?php echo $post_status ?></td>
         <td><?php echo "<img width='60' height='50' alt='post_image' src='../images/$post_image'>"?></td>
         <td><?php echo $post_tags ?></td>
@@ -65,3 +73,5 @@
 
         header('Location: posts.php');
     }
+
+    closeCon($conn);
