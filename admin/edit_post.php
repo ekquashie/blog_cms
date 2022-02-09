@@ -101,6 +101,7 @@ $conn = openCon();
 
                         <div class="form-group">
                             <img width="80" height="60" src="../images/<?php echo $post_image; ?>" alt="post_image">
+                            <input type="file" name="post_image">
                         </div>
 
                         <div class="form-group">
@@ -116,10 +117,41 @@ $conn = openCon();
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary" name="create_post" value="Update Post">
+                            <input type="submit" class="btn btn-primary" name="update_post" value="Update Post">
                         </div>
 
                     </form>
+
+                    <?php
+                        if(isset($_POST['update_post'])){
+                            $post_title = $_POST['post_title'];
+                            $post_category_id = $_POST['post_category_id'];
+                            $post_author = $_POST['post_author'];
+                            $post_tags = $_POST['post_tags'];
+                            $post_content = $_POST['post_content'];
+                            $post_status = $_POST['post_status'];
+                            $post_image = $_FILES['post_image']['name'];
+                            $post_image_tmp = $_FILES['post_image']['tmp_name'];
+
+                            move_uploaded_file($post_image_tmp, "../images/$post_image");
+
+                            if(empty($post_image)) {
+                                $image_query = "SELECT * FROM `posts` WHERE `post_id`='$post_id'";
+                                $select_image = $conn->query($image_query);
+
+                                while($row = $select_image->fetch_assoc()){
+                                $post_image = $row['post_image'];}
+                            }
+
+                            $post_query = "UPDATE `posts` SET `post_title`='$post_title', `post_author`='$post_author', `post_category_id`='$post_category_id', `post_tags`='$post_tags',`post_content` = '$post_content', `post_date` = 'now()',`post_status` = '$post_status',`post_image` = '$post_image' WHERE `post_id`='$post_id'  ";
+
+                            $update_post = $conn->query($post_query);
+
+                            if(!$update_post) {
+                                echo "Could not update post ". $conn->connect_error;
+                            }
+                        }
+                    ?>
 
                 </div>
 
