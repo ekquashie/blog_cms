@@ -30,6 +30,7 @@
                 $posts_results = $conn->query($query);
 
                 while($row = $posts_results->fetch_assoc()){
+                    $post_id = $row['post_id'];
                     $post_title = $row['post_title'];
                     $post_author = $row['post_author'];
                     $post_date = $row['post_date'];
@@ -39,7 +40,7 @@
                 ?>
 
                 <h2>
-                    <a href="#"><?php echo $post_title ?></a>
+                    <a href="post.php?post_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?php echo $post_author ?></a>
