@@ -31,9 +31,10 @@
                     $side_categories_result = $conn->query($side_cat_query);
 
                     while($row = $side_categories_result->fetch_assoc()) {
+                        $cat_id = $row['cat_id'];
                         $cat_title = $row['cat_title'];
                     ?>
-                    <li><a href="#"><?php echo $cat_title ?></a></li>
+                    <li><a href="category.php?cat_id=<?php echo $cat_id ?>"><?php echo $cat_title ?></a></li>
 
                     <?php } closeCon($conn); ?>
 
