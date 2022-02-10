@@ -66,9 +66,22 @@ $conn = openCon();
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Category Id
-                                <input type="text" class="form-control" name="post_category_id">
-                            </label>
+                            <label for="post_category"></label><select name="post_category" id="post_category">
+                                <?php
+                                $category_id = '';
+                                $category_title = '';
+
+                                $categories_query = "SELECT * FROM `categories`";
+                                $select_categories = $conn->query($categories_query);
+
+                                while($row = $select_categories->fetch_assoc()){
+                                    $category_id = $row['cat_id'];
+                                    $category_title = $row['cat_title'];?>
+
+                                    <option value="<?php echo $category_id ?>" ><?php echo $category_title ?></option>
+
+                                <?php } ?>
+                            </select>
                         </div>
 
                         <div class="form-group">
