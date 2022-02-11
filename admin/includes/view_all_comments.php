@@ -62,8 +62,8 @@
             ?>
 
             <td><?php echo $comment_date ?></td>
-            <td><?php echo "<a class='btn btn-success' href='edit_post.php?appprove='>Approve</a>" ?></td>
-            <td><?php echo "<a class='btn btn-warning' href='posts.php?disapprove='>Unapprove</a>" ?></td>
+            <td><?php echo "<a class='btn btn-success' href='comments.php?appprove=$comment_id'>Approve</a>" ?></td>
+            <td><?php echo "<a class='btn btn-warning' href='comments.php?unapprove=$comment_id'>Unapprove</a>" ?></td>
             <td><?php echo "<a class='btn btn-danger' href='comments.php?delete=$comment_id'>Delete</a>" ?></td>
         </tr>
         </tbody>
@@ -77,18 +77,29 @@ if(isset($_GET['delete'])) {
 
     $query = "DELETE FROM `comments` WHERE `comment_id`='$delete_id'";
 
-    $delete_post = $conn->query($query);
+    $delete_comment = $conn->query($query);
 
     header('Location: comments.php');
 
 }
 
-if(isset($_GET['delete'])) {
-    $delete_id = $_GET['delete'];
+if(isset($_GET['unapprove'])) {
+    $unapprove_id = $_GET['unapprove'];
 
-    $query = "DELETE FROM `comments` WHERE `comment_id`='$delete_id'";
+    $query = "UPDATE `comments` SET `comment_status`='unapproved' WHERE `comment_id`='$unapprove_id'";
 
-    $delete_post = $conn->query($query);
+    $unapprove_comment = $conn->query($query);
+
+    header('Location: comments.php');
+
+}
+
+if(isset($_GET['approve'])) {
+    $approve_id = $_GET['approve'];
+
+    $query = "UPDATE `comments` SET `comment_status`='approved' WHERE `comment_id`='$approve_id'";
+
+    $approve_comment = $conn->query($query);
 
     header('Location: comments.php');
 
