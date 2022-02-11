@@ -66,7 +66,7 @@ $conn = openCon();
                         </div>
 
                         <div class="form-group">
-                            <label for="post_category"></label><select name="post_category" id="post_category">
+                            <label for="post_category"></label><select name="post_category_id" id="post_category">
                                 <?php
                                 $category_id = '';
                                 $category_title = '';
