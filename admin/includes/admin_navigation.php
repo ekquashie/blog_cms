@@ -130,8 +130,16 @@
             <li>
                 <a href="categories.php"><i class="fa fa-fw fa-wrench"></i> Categories</a>
             </li>
-            <li class="active">
-                <a href="blank-page.html"><i class="fa fa-fw fa-file"></i>Comments</a>
+            <li>
+                <a href="javascript:" data-toggle="collapse" data-target="#comments_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Comments <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="comments_dropdown" class="collapse">
+                    <li>
+                        <a href="comments.php">View All Comments</a>
+                    </li>
+                    <li>
+                        <a href="add_comment.php">Add Comment</a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="javascript:" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
