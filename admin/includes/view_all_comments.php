@@ -47,12 +47,24 @@
 
             <td><?php echo $comment_email ?></td>
             <td><?php echo $comment_status ?></td>
-            <td><?php echo "Some Title" ?></td>
+            <?php
+                $query = "SELECT * FROM `posts` WHERE `post_id` = '$comment_post_id'";
+                $get_post_id = $conn->query($query);
+
+                $post_title = '';
+
+                while($row = $get_post_id->fetch_assoc()) {
+                    $post_id = $row['post_id'];
+                    $post_title = $row['post_title'];
+
+                    echo "<td> <a href='../post.php?id=$post_id'>$post_title</a></td>";
+                }
+            ?>
+
             <td><?php echo $comment_date ?></td>
-            <td><?php echo "<a class='btn btn-success' href='edit_post.php?edit='>Approve</a>" ?></td>
-            <td><?php echo "<a class='btn btn-warning' href='posts.php?delete='>Disapprove</a>" ?></td>
-            <td><?php echo "<a class='btn btn-primary' href='posts.php?delete='>Edit</a>" ?></td>
-            <td><?php echo "<a class='btn btn-danger' href='posts.php?delete='>Delete</a>" ?></td>
+            <td><?php echo "<a class='btn btn-success' href='edit_post.php?appprove='>Approve</a>" ?></td>
+            <td><?php echo "<a class='btn btn-warning' href='posts.php?disapprove='>Unapprove</a>" ?></td>
+            <td><?php echo "<a class='btn btn-danger' href='comments.php?delete=$comment_id'>Delete</a>" ?></td>
         </tr>
         </tbody>
 
@@ -63,11 +75,23 @@
 if(isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
 
-    $query = "DELETE FROM `posts` WHERE `post_id`='$delete_id'";
+    $query = "DELETE FROM `comments` WHERE `comment_id`='$delete_id'";
 
     $delete_post = $conn->query($query);
 
-    header('Location: posts.php');
+    header('Location: comments.php');
+
+}
+
+if(isset($_GET['delete'])) {
+    $delete_id = $_GET['delete'];
+
+    $query = "DELETE FROM `comments` WHERE `comment_id`='$delete_id'";
+
+    $delete_post = $conn->query($query);
+
+    header('Location: comments.php');
+
 }
 
 closeCon($conn);

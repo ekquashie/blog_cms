@@ -26,9 +26,10 @@
             <?php
             $conn = openCon();
 
+            $post_id = 1;
+
             if(isset($_GET['post_id'])) {
                 $post_id = $_GET['post_id'];
-
             }
 
             $query = "SELECT * FROM `posts` WHERE `post_id`='$post_id'";
@@ -61,13 +62,44 @@
             <!-- Comments Form -->
             <div class="well">
                 <h4>Leave a Comment:</h4>
-                <form role="form">
+                <form action="" role="form" method="POST">
+
                     <div class="form-group">
-                        <textarea class="form-control" rows="3"></textarea>
+                        <label>Author
+                            <input class="form-control" type="text" name="comment_author" required>
+                        </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <div class="form-group">
+                        <label>Email
+                            <input class="form-control" type="text" name="comment_email" required>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Comment
+                            <textarea name="comment_content" class="form-control" rows="3" required></textarea>
+                        </label>
+                    </div>
+                    <button type="submit" name="create_comment" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+
+            <?php
+                if(isset($_POST['create_comment'])) {
+                    $comment_author = $_POST['comment_author'];
+                    $comment_email = $_POST['comment_email'];
+                    $comment_content = $_POST['comment_content'];
+
+                    $query = "INSERT INTO `comments` (`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ('$post_id', '$comment_author', '$comment_email', '$comment_content', 'Unapproved', now())";
+                    $create_comment = $conn->query($query);
+
+                    if(!$create_comment) {
+                        echo "Could not create comment ". $conn->connect_error;
+                    }
+
+                }
+            ?>
 
             <hr>
 
@@ -91,6 +123,10 @@
                 <a class="pull-left" href="#">
                     <img class="media-object" src="http://placehold.it/64x64" alt="">
                 </a>
+
+                <?php
+
+                ?>
                 <div class="media-body">
                     <h4 class="media-heading">Start Bootstrap
                         <small>August 25, 2014 at 9:30 PM</small>
