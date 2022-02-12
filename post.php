@@ -41,6 +41,7 @@
                 $post_date = $row['post_date'];
                 $post_content = $row['post_content'];
                 $post_image = $row['post_image'];
+                $comment_count = $row['post_comment_count'];
 
                 ?>
 
@@ -93,6 +94,8 @@
 
                     $query = "INSERT INTO `comments` (`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ('$post_id', '$comment_author', '$comment_email', '$comment_content', 'Unapproved', now())";
                     $create_comment = $conn->query($query);
+
+                    $get_post_count = "UPDATE `posts` SET `post_comment_count`= post_comment_count+1 WHERE `post_id`='$post_id'";
 
                     if(!$create_comment) {
                         echo "Could not create comment ". $conn->connect_error;

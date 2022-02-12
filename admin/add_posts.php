@@ -42,7 +42,7 @@ $conn = openCon();
                         $post_image_tmp = $_FILES['post_image']['tmp_name'];
 
                         $post_date = Date('d-m-y');
-                        $post_comment_count = 4;
+                        $post_comment_count = 0;
 
                         move_uploaded_file($post_image_tmp, "../images/$post_image");
 
