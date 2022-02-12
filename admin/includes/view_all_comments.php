@@ -10,7 +10,7 @@
             <th>Status</th>
             <th>Response to</th>
             <th>Date</th>
-            <th colspan="4">Action</th>
+            <th colspan="3">Action</th>
         </tr>
         </thead>
 
