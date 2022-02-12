@@ -96,6 +96,7 @@
                     $create_comment = $conn->query($query);
 
                     $get_post_count = "UPDATE `posts` SET `post_comment_count`= post_comment_count+1 WHERE `post_id`='$post_id'";
+                    $update_comment_count = $conn->query($get_post_count);
 
                     if(!$create_comment) {
                         echo "Could not create comment ". $conn->connect_error;
