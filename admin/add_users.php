@@ -29,27 +29,24 @@ $conn = openCon();
 
                     <?php
 
-                    if(isset($_POST['create_post'])) {
+                    if(isset($_POST['create_user'])) {
 
-                        $post_title = $_POST['post_title'];
-                        $post_category_id = $_POST['post_category_id'];
-                        $post_author = $_POST['post_author'];
-                        $post_tags = $_POST['post_tags'];
-                        $post_content = $_POST['post_content'];
-                        $post_status = $_POST['post_status'];
+                        $username = $_POST['username'];
+                        $password = $_POST['password'];
+                        $user_firstname = $_POST['user_firstname'];
+                        $user_lastname = $_POST['user_lastname'];
+                        $user_email = $_POST['user_email'];
+                        $user_role = $_POST['user_role'];
 
-                        $post_image = $_FILES['post_image']['name'];
-                        $post_image_tmp = $_FILES['post_image']['tmp_name'];
+                        $user_image = $_FILES['user_image']['name'];
+                        $user_image_tmp = $_FILES['user_image']['tmp_name'];
 
-                        $post_date = Date('d-m-y');
-                        $post_comment_count = 0;
+                        move_uploaded_file($user_image_tmp, "images/$user_image");
 
-                        move_uploaded_file($post_image_tmp, "../images/$post_image");
+                        $query = "INSERT INTO `users` (`username`, `password`, `user_firstname`, `user_lastname`, `user_email`, `user_image`, `user_role`, `user_randSalt`) VALUES ('$username', '$password', '$user_firstname', '$user_lastname','$user_email', '$user_image', '$user_role', '')";
+                        $insert_user = $conn->query($query);
 
-                        $query = "INSERT INTO `posts` (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES ('$post_category_id', '$post_title', '$post_author', '$post_date','$post_image', '$post_content', '$post_tags', '$post_comment_count', '$post_status')";
-                        $insert_post = $conn->query($query);
-
-                        if(!$insert_post) {
+                        if(!$insert_user) {
                             echo "Query Failed! " . $conn;
                         }
 
@@ -60,62 +57,51 @@ $conn = openCon();
                     <form action="" method="POST" enctype="multipart/form-data">
 
                         <div class="form-group">
-                            <label for="title">Post Title
-                                <input type="text" class="form-control" name="post_title">
+                            <label for="username">Username
+                                <input type="text" class="form-control" name="username">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="post_category"></label><select name="post_category_id" id="post_category">
-                                <?php
-                                $category_id = '';
-                                $category_title = '';
+                            <label for="password">Password
+                                <input type="text" class="form-control" name="password">
+                            </label>
+                        </div>
 
-                                $categories_query = "SELECT * FROM `categories`";
-                                $select_categories = $conn->query($categories_query);
-
-                                while($row = $select_categories->fetch_assoc()){
-                                    $category_id = $row['cat_id'];
-                                    $category_title = $row['cat_title'];?>
-
-                                    <option value="<?php echo $category_id ?>" ><?php echo $category_title ?></option>
-
-                                <?php } ?>
+                        <div class="form-group">
+                            <label for="user_role"></label><select name="user_role" id="user_role">
+                                <option value="subscriber">Select Options</option>
+                                <option value="subscriber" >Subscriber</option>
+                                <option value="admin" >Admin</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Author
-                                <input type="text" class="form-control" name="post_author">
+                            <label for="user_firstname">Firstname
+                                <input type="text" class="form-control" name="user_firstname">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Status
-                                <input type="text" class="form-control" name="post_status">
+                            <label for="user_lastname">Lastname
+                                <input type="text" class="form-control" name="user_lastname">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Image
-                                <input type="file" name="post_image">
+                            <label for="user_email">Email Address
+                                <input type="email" class="form-control" name="user_email">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Tags
-                                <input type="text" class="form-control" name="post_tags">
+                            <label for="title">Image
+                                <input type="file" name="user_image">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Content
-                                <textarea class="form-control" name="post_content"></textarea>
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary" name="create_post" value="Publish Post">
+                            <input type="submit" class="btn btn-primary" name="create_user" value="Create User">
                         </div>
 
                     </form>

@@ -11,7 +11,7 @@ $conn = openCon();
     <div id="wrapper">
 
     <!-- Navigation -->
-<?php include 'includes/admin_navigation.php'; ?>
+    <?php include 'includes/admin_navigation.php'; ?>
 
     <div id="page-wrapper">
 
@@ -29,123 +29,105 @@ $conn = openCon();
 
                     <?php
 
-                    $post_title = '';
-                    $post_category_id = '';
-                    $post_author = '';
-                    $post_tags = '';
-                    $post_content = '';
-                    $post_status = '';
-                    $post_image = '';
+                    $user_id = '';
 
-                    if(isset($_GET['edit'])) {
-
-                        $post_id = $_GET['edit'];
-
-                        $query = "SELECT * FROM `posts` WHERE `post_id`='$post_id'";
-                        $get_post = $conn->query($query);
-
-                        if($row = $get_post->fetch_assoc()) {
-
-                            $post_title = $row['post_title'];
-                            $post_category_id = $row['post_category_id'];
-                            $post_author = $row['post_author'];
-                            $post_tags = $row['post_tags'];
-                            $post_content = $row['post_content'];
-                            $post_status = $row['post_status'];
-                            $post_image = $row['post_image'];
-
-                        }
-
+                    if(isset($_GET['edit_user'])) {
+                        $user_id = $_GET['edit_user'];
                     }
+
+                    $select_user = "SELECT * FROM `users` WHERE `user_id`='$user_id'";
+                    $get_user = $conn->query($select_user);
+
+                    while($row = $get_user->fetch_assoc()) {
+                        $username = $row['username'];
+                        $password = $row['password'];
+                        $user_firstname = $row['user_firstname'];
+                        $user_lastname = $row['user_lastname'];
+                        $user_email = $row['user_email'];
+                        $user_role = $row['user_role'];
+                        $user_image = $row['user_image'];
 
                     ?>
 
                     <form action="" method="POST" enctype="multipart/form-data">
 
                         <div class="form-group">
-                            <label for="title">Post Title
-                                <input value="<?php echo $post_title ?>" type="text" class="form-control" name="post_title">
+                            <label for="username">Username
+                                <input type="text" class="form-control" name="username" value="<?php echo $username ?>">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="post_category"></label><select name="post_category" id="post_category">
-                                <?php
-                                $category_id = '';
-                                $category_title = '';
+                            <label for="password">Password
+                                <input type="password" class="form-control" name="password" value="<?php echo $password ?>">
+                            </label>
+                        </div>
 
-                                $categories_query = "SELECT * FROM `categories`";
-                                $select_categories = $conn->query($categories_query);
-
-                                while($row = $select_categories->fetch_assoc()){
-                                    $category_id = $row['cat_id'];
-                                    $category_title = $row['cat_title'];?>
-
-                                    <option value="<?php echo $category_id ?>" ><?php echo $category_title ?></option>
-
-                                <?php } ?>
+                        <div class="form-group">
+                            <label for="user_role"></label><select name="user_role" id="user_role">
+                                <option value="subscriber">Select Options</option>
+                                <option <?php if($user_role=='subscriber'){ echo 'selected';} ?> value="subscriber" >Subscriber</option>
+                                <option <?php if($user_role=='admin'){ echo 'selected';}?> value="admin" >Admin</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Author
-                                <input value="<?php echo $post_author ?>" type="text" class="form-control" name="post_author">
+                            <label for="user_firstname">Firstname
+                                <input type="text" class="form-control" name="user_firstname" value="<?php echo $user_firstname ?>">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Status
-                                <input value="<?php echo $post_status ?>" type="text" class="form-control" name="post_status">
+                            <label for="user_lastname">Lastname
+                                <input type="text" class="form-control" name="user_lastname" value="<?php echo $user_lastname ?>">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <img width="80" height="60" src="../images/<?php echo $post_image; ?>" alt="post_image">
-                            <input type="file" name="post_image">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="title">Post Tags
-                                <input value="<?php echo $post_tags ?>" type="text" class="form-control" name="post_tags">
+                            <label for="user_email">Email Address
+                                <input type="email" class="form-control" name="user_email" value="<?php echo $user_email ?>">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Post Content
-                                <textarea rows="4" cols="50" class="form-control" name="post_content"><?php echo $post_content ?></textarea>
-                            </label>
+                            <img width="80" height="60" src="images/<?php echo $user_image; ?>" alt="user_image">
+                            <input type="file" name="user_image">
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary" name="update_post" value="Update Post">
+                            <input type="submit" class="btn btn-primary" name="update_user" value="Update User">
                         </div>
 
                     </form>
+                    <?php } ?>
 
                     <?php
-                    if(isset($_POST['update_post'])){
-                        $post_title = $_POST['post_title'];
-                        $post_category_id = $_POST['post_category_id'];
-                        $post_author = $_POST['post_author'];
-                        $post_tags = $_POST['post_tags'];
-                        $post_content = $_POST['post_content'];
-                        $post_status = $_POST['post_status'];
-                        $post_image = $_FILES['post_image']['name'];
-                        $post_image_tmp = $_FILES['post_image']['tmp_name'];
+                    if(isset($_POST['update_user'])){
+                        $username = $_POST['username'];
+                        $password = $_POST['password'];
+                        $user_role = $_POST['user_role'];
+                        $user_firstname = $_POST['user_firstname'];
+                        $user_lastname = $_POST['user_lastname'];
+                        $user_email = $_POST['user_email'];
+                        $user_image = $_FILES['user_image']['name'];
+                        $user_image_tmp = $_FILES['user_image']['tmp_name'];
 
-                        move_uploaded_file($post_image_tmp, "../images/$post_image");
+                        move_uploaded_file($user_image_tmp, "images/$user_image");
 
-                        if(empty($post_image)) {
-                            $image_query = "SELECT * FROM `posts` WHERE `post_id`='$post_id'";
+                        if(empty($user_image)) {
+                            $image_query = "SELECT * FROM `users` WHERE `user_id`='$user_id'";
                             $select_image = $conn->query($image_query);
 
                             while($row = $select_image->fetch_assoc()){
-                                $post_image = $row['post_image'];}
+                                $user_image = $row['user_image'];
+                            }
                         }
 
-                        $post_query = "UPDATE `posts` SET `post_title`='$post_title', `post_author`='$post_author', `post_category_id`='$post_category_id', `post_tags`='$post_tags',`post_content` = '$post_content', `post_date` = 'now()',`post_status` = '$post_status',`post_image` = '$post_image' WHERE `post_id`='$post_id'  ";
+                        $post_query = "UPDATE `users` SET `username`='$username', `password`='$password', `user_role`='$user_role', `user_firstname`='$user_firstname', `user_lastname`='$user_lastname', `user_email`='$user_email', `user_image`='$user_image' WHERE `user_id`='$user_id'";
 
                         $update_post = $conn->query($post_query);
+
+                        header("Location: users.php");
 
                         if(!$update_post) {
                             echo "Could not update post ". $conn->connect_error;
@@ -163,6 +145,5 @@ $conn = openCon();
 
     </div>
     <!-- /#page-wrapper -->
-<?php closeCon($conn); ?>
 
 <?php include 'includes/admin_footer.php'; ?>

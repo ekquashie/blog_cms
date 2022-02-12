@@ -4,13 +4,12 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Author</th>
-            <th>Comment</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Response to</th>
-            <th>Date</th>
-            <th colspan="3">Action</th>
+            <th>Username</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email Address</th>
+            <th>Role</th>
+            <th colspan="4">Actions</th>
         </tr>
         </thead>
 
@@ -18,53 +17,34 @@
 
         <?php
 
-        $query = "SELECT * FROM `comments`";
-        $get_comments = $conn->query($query);
+        $query = "SELECT * FROM `users`";
+        $get_users = $conn->query($query);
 
-        while($row = $get_comments->fetch_assoc()){
+        while($row = $get_users->fetch_assoc()){
 
-        $comment_id  = $row['comment_id'];
-        $comment_post_id  = $row['comment_post_id'];
-        $comment_author  = $row['comment_author'];
-        $comment_content  = $row['comment_content'];
-        $comment_email  = $row['comment_email'];
-        $comment_status  = $row['comment_status'];
-        $comment_date  = $row['comment_date'];
+        $user_id  = $row['user_id'];
+        $username  = $row['username'];
+        $password  = $row['password'];
+        $user_firstname  = $row['user_firstname'];
+        $user_lastname  = $row['user_lastname'];
+        $user_email  = $row['user_email'];
+        $user_image  = $row['user_image'];
+        $user_role = $row['user_role'];
 
         ?>
 
         <tr>
-            <td><?php echo $comment_id ?></td>
-            <td><?php echo $comment_author ?></td>
-            <td><?php echo $comment_content ?></td>
+            <td><?php echo $user_id ?></td>
+            <td><?php echo $username ?></td>
+            <td><?php echo $user_firstname ?></td>
 
-            <!--            --><?php
-            //            $query = "SELECT * FROM `comments` WHERE `comment_post_id` = '$post_category_id'";
-            //            $fetch = $conn->query($query);
-            //            $row = $fetch->fetch_assoc();
-            //            $cat_title = $row['cat_title'];
-            //            ?>
-
-            <td><?php echo $comment_email ?></td>
-            <td><?php echo $comment_status ?></td>
-            <?php
-            $query = "SELECT * FROM `posts` WHERE `post_id` = '$comment_post_id'";
-            $get_post_id = $conn->query($query);
-
-            $post_title = '';
-
-            while($row = $get_post_id->fetch_assoc()) {
-                $post_id = $row['post_id'];
-                $post_title = $row['post_title'];
-
-                echo "<td> <a href='../post.php?id=$post_id'>$post_title</a></td>";
-            }
-            ?>
-
-            <td><?php echo $comment_date ?></td>
-            <td><?php echo "<a class='btn btn-success' href='comments.php?approve=$comment_id'>Approve</a>" ?></td>
-            <td><?php echo "<a class='btn btn-warning' href='comments.php?unapprove=$comment_id'>Unapprove</a>" ?></td>
-            <td><?php echo "<a class='btn btn-danger' href='comments.php?delete=$comment_id'>Delete</a>" ?></td>
+            <td><?php echo $user_lastname ?></td>
+            <td><?php echo $user_email ?></td>
+            <td><?php echo $user_role ?></td>
+            <td><?php echo "<a class='btn btn-warning' href='users.php?remove_admin=$user_id'>Make Subscriber</a>" ?></td>
+            <td><?php echo "<a class='btn btn-success' href='users.php?make_admin=$user_id'>Make Admin</a>" ?></td>
+            <td><?php echo "<a class='btn btn-primary' href='edit_user.php?edit_user=$user_id'>Edit</a>" ?></td>
+            <td><?php echo "<a class='btn btn-danger' href='users.php?delete=$user_id'>Delete</a>" ?></td>
         </tr>
         </tbody>
 
@@ -75,34 +55,31 @@
 if(isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
 
-    $query = "DELETE FROM `comments` WHERE `comment_id`='$delete_id'";
+    $query = "DELETE FROM `users` WHERE `user_id`='$delete_id'";
 
     $delete_comment = $conn->query($query);
 
-    header('Location: comments.php');
-
+    header('Location: users.php');
 }
 
-if(isset($_GET['unapprove'])) {
-    $unapprove_id = $_GET['unapprove'];
+if(isset($_GET['make_admin'])) {
+    $user_id = $_GET['make_admin'];
 
-    $query = "UPDATE `comments` SET `comment_status`='unapproved' WHERE `comment_id`='$unapprove_id'";
+    $query = "UPDATE `users` SET `user_role`='admin' WHERE `user_id`='$user_id'";
 
-    $unapprove_comment = $conn->query($query);
+    $make_admin = $conn->query($query);
 
-    header('Location: comments.php');
-
+    header('Location: users.php');
 }
 
-if(isset($_GET['approve'])) {
-    $approve_id = $_GET['approve'];
+if(isset($_GET['remove_admin'])) {
+    $user_id = $_GET['remove_admin'];
 
-    $query = "UPDATE `comments` SET `comment_status`='approved' WHERE `comment_id`='$approve_id'";
+    $query = "UPDATE `users` SET `user_role`='subscriber' WHERE `user_id`='$user_id'";
 
-    $approve_comment = $conn->query($query);
+    $remove_admin = $conn->query($query);
 
-    header('Location: comments.php');
-
+    header('Location: users.php');
 }
 
 closeCon($conn);
