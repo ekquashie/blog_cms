@@ -36,11 +36,7 @@ while($row = $get_user->fetch_assoc()) {
     $user_role = $row['user_role'];
 }
 
-if($username !== $db_username && $password !== $db_password) {
-
-    header("location: ../index.php");
-
-} else if($username == $db_username && $password == $db_password && $user_role == 'admin') {
+if($username === $db_username && $password === $db_password && $user_role === 'admin') {
 
     $_SESSION['username'] = $db_username;
     $_SESSION['user_role'] = $user_role;
