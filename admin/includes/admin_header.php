@@ -1,5 +1,22 @@
 <?php include '../includes/db.php'?>
 
+<?php
+session_start();
+
+if (ini_get('register_globals')) {
+    foreach ($_SESSION as $key=>$value) {
+        if (isset($GLOBALS[$key])) {
+            unset($GLOBALS[$key]);
+        }
+    }
+}
+
+if($_SESSION['user_role'] !== 'admin') {
+    header("location: ../index.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
