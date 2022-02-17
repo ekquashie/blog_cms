@@ -35,6 +35,8 @@
                     $query = "SELECT * FROM `users` WHERE `username` = '$username'";
                     $select_user = $conn->query($query);
 
+                    $user_id = $username = $password = $user_role = $user_firstname = $user_lastname = $user_email = '';
+
                     while($row = $select_user->fetch_assoc()) {
                         $user_id = $row['user_id'];
                         $username = $row['username'];
@@ -101,8 +103,6 @@
                             $user_firstname = $_POST['user_firstname'];
                             $user_lastname = $_POST['user_lastname'];
                             $user_email = $_POST['user_email'];
-                            $user_image = $_FILES['user_image']['name'];
-                            $user_image_tmp = $_FILES['user_image']['tmp_name'];
 
                             $user_query = "UPDATE `users` SET `username`='$username', `password`='$password', `user_role`='$user_role', `user_firstname`='$user_firstname', `user_lastname`='$user_lastname', `user_email`='$user_email', `user_image`='$user_image' WHERE `user_id`='$user_id'";
 
