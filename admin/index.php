@@ -138,6 +138,12 @@
                             </div>
                         </div>
 
+                        <?php
+                        $query = "SELECT * FROM `posts` WHERE `post_status`='draft'";
+                        $select_draft_post = $conn->query($query);
+                        $draft_count = $select_draft_post->num_rows;
+                        ?>
+
                         <div class="row">
                             <script type="text/javascript">
                                 google.charts.load('current', {'packages':['bar']});
@@ -147,8 +153,8 @@
                                     var data = google.visualization.arrayToDataTable([
                                         ['Data', 'Count'],
                                         <?php
-                                            $element_text = ['Active Posts', 'Categories', 'Users', 'Comments'];
-                                            $element_count = [$post_count, $category_count, $user_count, $comment_count];
+                                            $element_text = ['Active Posts', 'Draft Posts', 'Categories', 'Users', 'Comments'];
+                                            $element_count = [$post_count, $draft_count, $category_count, $user_count, $comment_count];
 
                                             for($i=0; $i<sizeof($element_text); $i++) {
                                                 echo "['$element_text[$i]', $element_count[$i]],";
