@@ -123,14 +123,14 @@ $conn = openCon();
                             }
                         }
 
-                        $post_query = "UPDATE `users` SET `username`='$username', `password`='$password', `user_role`='$user_role', `user_firstname`='$user_firstname', `user_lastname`='$user_lastname', `user_email`='$user_email', `user_image`='$user_image' WHERE `user_id`='$user_id'";
+                        $user_query = "UPDATE `users` SET `username`='$username', `password`='$password', `user_role`='$user_role', `user_firstname`='$user_firstname', `user_lastname`='$user_lastname', `user_email`='$user_email', `user_image`='$user_image' WHERE `user_id`='$user_id'";
 
-                        $update_post = $conn->query($post_query);
+                        $update_user = $conn->query($user_query);
 
                         header("Location: users.php");
 
-                        if(!$update_post) {
-                            echo "Could not update post ". $conn->connect_error;
+                        if(!$update_user) {
+                            echo "Could not update user ". $conn->connect_error;
                         }
                     }
                     ?>
