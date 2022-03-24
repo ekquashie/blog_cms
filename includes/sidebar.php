@@ -17,7 +17,7 @@
     </div>
 
     <div class="well">
-        <h4>Loginn</h4>
+        <h4>Login</h4>
         <form action="includes/login.php" method="POST">
             <label>
                 <input type="text" name="username" placeholder="Enter Username">
